@@ -1,14 +1,21 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { ApiTags } from '@nestjs/swagger';
+import { LoginDTO, RegisterDTO } from './dto/auth';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService){}
 
     @Post('register')
-    async register(@Body() data:any){
+    async register(@Body() data:RegisterDTO){
         return this.authService.register(data)
     }
-    async login(){}
+
+    @Post('login')
+    async login(@Body() data:LoginDTO){
+        return this.authService.login(data)
+    }
 }

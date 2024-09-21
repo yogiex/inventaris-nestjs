@@ -15,7 +15,7 @@ datasource db {
 
 model Users {
   id Int @id @default(autoincrement())
-  username String
+  username String @unique
   password String 
   role Int 
   movement_requests Movement_Request[]
