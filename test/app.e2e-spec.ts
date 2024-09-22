@@ -5,15 +5,10 @@ import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 
 describe('AppController (e2e)', () => {
-  const url = process.env.urlApp
+  const url = 'http://localhost:3000';
+  // const url = process.env.APP_URL;
 
   it('/ (GET)', () => {
-    return request(url)
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+    return request(url).get('/').expect(200).expect('Hello World!');
   });
 });
-
-
-
