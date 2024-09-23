@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {ApiProperty, OmitType, PickType} from '@nestjs/swagger'
+import {ApiProperty, OmitType, PartialType, PickType} from '@nestjs/swagger'
 export enum ItemType {
     REDUCE= 'barang_stok',
     NON_REDUCE= 'barang_sekali_pakai'
@@ -23,4 +23,5 @@ export class Items{
 }
 
 export class CreateItem extends OmitType(Items,['id']){}
+export class UpdateItem extends PartialType(Items){}
 export class ItemIdDTO extends PickType(Items,['id']){}
