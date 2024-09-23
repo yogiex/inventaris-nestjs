@@ -1,14 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
 import { CreateRoom } from 'src/rooms/dto/rooms';
+import { PrismaClient } from '@prisma/client';
 
 describe('RoomsController (e2e)', () => {
   const url = 'http://localhost:3000';
   //   const url = process.env.APP_URL;
 
+  const prisma = new PrismaClient();
   const createRoom: CreateRoom = {
     name: 'Gudang 2',
     address: 'Telkom University Landmark Tower',
@@ -16,6 +15,9 @@ describe('RoomsController (e2e)', () => {
     building: 'TULT',
   };
 
+  beforeAll(async () => {
+    await prisma.room.deleteMany();
+  });
   it('/rooms (GET)', () => {
     return request(url).get('/rooms').expect(200);
   });

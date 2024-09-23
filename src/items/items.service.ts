@@ -18,7 +18,7 @@ export class ItemsService {
     return this.prismaService.items.findMany();
   }
   async create(data: any) {
-    return this.prismaService.items.create({ data });
+    return this.prismaService.items.create({});
   }
   async update(id: ItemIdDTO, datas: UpdateItem) {
     const item = await this.prismaService.items.update({
