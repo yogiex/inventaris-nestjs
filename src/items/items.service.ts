@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { ItemIdDTO, UpdateItem } from './dto/items';
+import { CreateItem, ItemIdDTO, UpdateItem } from './dto/items';
 @Injectable()
 export class ItemsService {
   constructor(private prismaService: PrismaService) {}
@@ -17,8 +17,10 @@ export class ItemsService {
   async findAll() {
     return this.prismaService.items.findMany();
   }
-  async create(data: any) {
-    return this.prismaService.items.create({});
+  async create(data: CreateItem) {
+    return this.prismaService.items.create({
+      data: data,
+    });
   }
   async update(id: ItemIdDTO, datas: UpdateItem) {
     const item = await this.prismaService.items.update({

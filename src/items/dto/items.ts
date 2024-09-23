@@ -21,7 +21,10 @@ export class Items {
   type: ItemType;
 
   @ApiProperty()
-  room_id: number;
+  roomId!: number;
+
+  @ApiProperty()
+  supplierId: number;
 }
 
 export class CreateItem extends OmitType(Items, ['id']) {}

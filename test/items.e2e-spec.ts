@@ -9,11 +9,11 @@ describe('ItemsController (e2e)', () => {
     name: 'monitor',
     description: 'kayak gini lah',
     quantity: 4,
-    roomId: 1,
+    roomId: 4,
   };
 
   beforeAll(async () => {
-    await prisma.users.deleteMany();
+    // await prisma.users.deleteMany();
   });
 
   it('/items (POST)', () => {
