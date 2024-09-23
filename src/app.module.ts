@@ -6,6 +6,7 @@ import { ItemsModule } from './items/items.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { MovementRequestModule } from './movement_request/movement_request.module';
 import { UsersModule } from './users/users.module';
+import { PrismaService } from './prisma.service';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { UsersModule } from './users/users.module';
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}
