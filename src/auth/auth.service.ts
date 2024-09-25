@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 import { JwtService } from '@nestjs/jwt';
@@ -37,5 +36,13 @@ export class AuthService {
     const hashPassword = await bcrypt.hash(data.password, 10);
     data.password = hashPassword;
     return this.prisma.users.create({ data });
+  }
+
+  async userFindOne(id: number) {
+    return this.prisma.users.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 }

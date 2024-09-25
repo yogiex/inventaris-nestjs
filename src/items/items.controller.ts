@@ -7,12 +7,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItem, ItemIdDTO, UpdateItem } from './dto/items';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtGuard } from 'src/auth/jwt.guard';
 
 @ApiTags('items')
+@UseGuards(JwtGuard)
+@ApiBearerAuth()
 @Controller('items')
 export class ItemsController {
   constructor(private itemService: ItemsService) {}
