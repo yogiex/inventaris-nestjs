@@ -28,11 +28,13 @@ model Items {
   name String
   description String
   quantity Int
-  roomId Int @unique 
-  room Room @relation(fields: [roomId], references: [id])  
+  roomId Int @unique
+  room Room @relation(fields: [roomId], references: [id]) 
+  supplierId Int @unique
+  supplier Supplier @relation(fields: [supplierId], references: [id]) 
+  movement_request Movement_Request?
   created_at DateTime @default(now())
   update_at DateTime  @updatedAt
-  movement_request Movement_Request?
 }
 
 model Room {
@@ -43,13 +45,14 @@ model Room {
   address String
   created_at DateTime @default(now())
   update_at DateTime @updatedAt
-  items Items?
+  items Items[]
 }
 
 model Supplier {
   id Int @id @default(autoincrement())
   name String
   phone String
+  items Items[]
   created_at DateTime @default(now())
   update_at DateTime @updatedAt
 }
