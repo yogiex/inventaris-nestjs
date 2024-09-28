@@ -18,10 +18,7 @@ export class Items {
   quantity: number;
 
   @ApiProperty()
-  type: ItemType;
-
-  @ApiProperty()
-  roomId!: number;
+  roomId: number;
 
   @ApiProperty()
   supplierId: number;

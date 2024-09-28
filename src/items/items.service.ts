@@ -15,7 +15,22 @@ export class ItemsService {
   }
 
   async findAll() {
-    return this.prismaService.items.findMany();
+    return this.prismaService.items.findMany({
+      include: {
+        supplier: {
+          select: {
+            name: true,
+          },
+        },
+        room: {
+          select: {
+            name: true,
+            building: true,
+            address: true,
+          },
+        },
+      },
+    });
   }
   async create(data: CreateItem) {
     return this.prismaService.items.create({
