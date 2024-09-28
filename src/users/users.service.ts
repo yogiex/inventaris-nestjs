@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { SupplierDTO } from './dto/supplier';
 
@@ -30,7 +30,16 @@ export class UsersService {
       },
     });
   }
-  async updateSupplier() {}
+  async updateSupplier(id: number, data: any) {
+    const user = await this.prismaService.users.update({
+      where: {
+        id: id,
+      },
+      data: data,
+    });
+    if (!user) throw new NotFoundException('user not found');
+    return user;
+  }
   async deleteSupplier(id: number) {
     return this.prismaService.supplier.findUnique({
       where: {

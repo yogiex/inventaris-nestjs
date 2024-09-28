@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateRoom, RoomIdDto } from './dto/rooms';
 
@@ -18,6 +18,23 @@ export class RoomsService {
   async create(data: CreateRoom) {
     return this.prismaService.room.create({ data });
   }
-  async update() {}
-  async delete() {}
+  async update(id: number, data: any) {
+    const room = await this.prismaService.room.update({
+      where: {
+        id: id,
+      },
+      data: data,
+    });
+    if (!room) throw new NotFoundException('room not found');
+    return room;
+  }
+  async delete(id: number) {
+    const room = await this.prismaService.room.delete({
+      where: {
+        id: id,
+      },
+    });
+    if (!room) throw new NotFoundException('room not found');
+    return room;
+  }
 }

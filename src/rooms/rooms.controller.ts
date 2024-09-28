@@ -1,5 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Post, Get, Patch, Delete, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Delete,
+  Body,
+  Param,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RoomsService } from './rooms.service';
 import { CreateRoom, RoomIdDto } from './dto/rooms';
@@ -7,31 +15,29 @@ import { CreateRoom, RoomIdDto } from './dto/rooms';
 @ApiTags('rooms')
 @Controller('rooms')
 export class RoomsController {
-    constructor(
-        private roomService: RoomsService
-    ){}
-    @Get()
-    async findAll(){
-        return this.roomService.findAll()
-    }
-    
-    @Get(':id')
-    async findOne(data:RoomIdDto){
-        return this.roomService.findOne(data)
-    }
+  constructor(private roomService: RoomsService) {}
+  @Get()
+  async findAll() {
+    return this.roomService.findAll();
+  }
 
-    @Post()
-    async create(@Body() data:CreateRoom){
-        return this.roomService.create(data)
-    }
+  @Get(':id')
+  async findOne(data: RoomIdDto) {
+    return this.roomService.findOne(data);
+  }
 
-    @Patch()
-    async update(){
-        return this.roomService.update()
-    }
+  @Post()
+  async create(@Body() data: CreateRoom) {
+    return this.roomService.create(data);
+  }
 
-    @Delete(':id')
-    async delete(){
-        return this.roomService.delete()
-    }
+  @Patch()
+  async update(@Param() id: number, @Body() data: any) {
+    return this.roomService.update(id, data);
+  }
+
+  @Delete(':id')
+  async delete(@Param() id: number) {
+    return this.roomService.delete(id);
+  }
 }

@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -14,59 +15,59 @@ datasource db {
 }
 
 model Users {
-  id Int @id @default(autoincrement())
-  username String @unique
-  password String 
-  role Int 
+  id                Int                @id @default(autoincrement())
+  username          String             @unique
+  password          String
+  role              Int
   movement_requests Movement_Request[]
-  createdAt DateTime @default(now())
-  update_at DateTime  @updatedAt
+  createdAt         DateTime           @default(now())
+  update_at         DateTime           @updatedAt
 }
 
 model Items {
-  id Int @id @default(autoincrement())
-  name String
-  description String
-  quantity Int
-  roomId Int @unique
-  room Room @relation(fields: [roomId], references: [id]) 
-  supplierId Int @unique
-  supplier Supplier @relation(fields: [supplierId], references: [id]) 
+  id               Int               @id @default(autoincrement())
+  name             String
+  description      String
+  quantity         Int
+  roomId           Int               @unique
+  room             Room              @relation(fields: [roomId], references: [id])
+  supplierId       Int               @unique
+  supplier         Supplier          @relation(fields: [supplierId], references: [id])
   movement_request Movement_Request?
-  created_at DateTime @default(now())
-  update_at DateTime  @updatedAt
+  created_at       DateTime          @default(now())
+  update_at        DateTime          @updatedAt
 }
 
 model Room {
-  id Int @id @default(autoincrement())
-  name String
-  building String
-  number String
-  address String
+  id         Int      @id @default(autoincrement())
+  name       String
+  building   String
+  number     String
+  address    String
   created_at DateTime @default(now())
-  update_at DateTime @updatedAt
-  items Items[]
+  update_at  DateTime @updatedAt
+  items      Items[]
 }
 
 model Supplier {
-  id Int @id @default(autoincrement())
-  name String
-  phone String
-  items Items[]
+  id         Int      @id @default(autoincrement())
+  name       String
+  phone      String
+  items      Items[]
   created_at DateTime @default(now())
-  update_at DateTime @updatedAt
+  update_at  DateTime @updatedAt
 }
 
 model Movement_Request {
-  id Int @id @default(autoincrement())
-  title String
+  id            Int      @id @default(autoincrement())
+  title         String
   requesterName String
-  body String
-  itemId Int @unique
-  itemMove Items @relation(fields: [itemId], references: [id])
-  status String
-  approvedBy Users @relation(fields: [userId], references: [id])
-  userId Int
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  body          String
+  itemId        Int      @unique
+  itemMove      Items    @relation(fields: [itemId], references: [id])
+  status        String
+  approvedBy    Users    @relation(fields: [userId], references: [id])
+  userId        Int
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
 }

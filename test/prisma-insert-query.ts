@@ -11,6 +11,13 @@ const main = async () => {
       address: 'Jl.Telekomunikasi no 1',
     },
   });
+  const supplier = await prisma.supplier.create({
+    data: {
+      phone: '1122233',
+      name: 'yogi',
+    },
+  });
+  return { room, supplier };
 };
 
 main();
