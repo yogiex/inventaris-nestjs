@@ -32,6 +32,7 @@ export class AuthService {
     return {
       accessToken: this.jwtService.sign({ userId: user.id }),
       username: user.username,
+      role: user.role,
     };
   }
   async register(data: RegisterDTO) {
