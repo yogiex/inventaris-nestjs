@@ -17,7 +17,14 @@ const main = async () => {
       name: 'yogi',
     },
   });
-  return { room, supplier };
+  const user = await prisma.users.create({
+    data: {
+      username: 'coba',
+      password: 'coba',
+      role: 0,
+    },
+  });
+  return { room, supplier, user };
 };
 
 main();
