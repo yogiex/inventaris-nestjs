@@ -1,8 +1,10 @@
 import { PrismaClient } from '@prisma/client';
-
+import * as bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 const main = async () => {
+  const password = 'coba';
+  const hashPassword = await bcrypt(password, 10);
   const room = await prisma.room.create({
     data: {
       name: 'gudang',
@@ -20,7 +22,7 @@ const main = async () => {
   const user = await prisma.users.create({
     data: {
       username: 'coba',
-      password: 'coba',
+      password: hashPassword,
       role: 0,
     },
   });

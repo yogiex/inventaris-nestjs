@@ -4,8 +4,8 @@ version: '3.1'
 services:
   db:
     image: postgres:9.6
+    container_name: "db_pg"
     restart: always
-    container_name: pg_container
     ports:
       - "5432:5432"
     environment:
@@ -17,6 +17,23 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8080:8080                                                            
+      - 8080:8080 
+  web:
+    build:
+      context: . 
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+     - '4000:4000' 
+    container_name: "iflab_warehouse"
+    environment:
+      PORT: 4000
+    command: bash -c "npx prisma migrate dev && npm run dev"
+    
+
+
 volumes:
   db:

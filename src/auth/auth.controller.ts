@@ -5,7 +5,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LoginDTO, RegisterDTO } from './dto/auth';
 import logger from 'src/logger';
 import { JwtGuard } from './jwt.guard';
-@ApiTags('auth')
+
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

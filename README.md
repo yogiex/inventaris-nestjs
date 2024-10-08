@@ -32,6 +32,18 @@
 $ npm install
 ```
 
+## Running docker container for database
+
+```bash
+sudo docker-compose up -d
+```
+
+## Running migrate prisma orm for database
+
+```bash
+npx prisma migrate dev
+```
+
 ## Running the app
 
 ```bash
