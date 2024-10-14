@@ -3,8 +3,6 @@ import * as bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 const main = async () => {
-  const password = 'coba';
-  const hashPassword = await bcrypt(password, 10);
   const room = await prisma.room.create({
     data: {
       name: 'gudang',
@@ -19,14 +17,14 @@ const main = async () => {
       name: 'yogi',
     },
   });
-  const user = await prisma.users.create({
-    data: {
-      username: 'coba',
-      password: hashPassword,
-      role: 0,
-    },
-  });
-  return { room, supplier, user };
+  // const user = await prisma.users.create({
+  //   data: {
+  //     username: 'coba',
+  //     password: hashPassword,
+  //     role: 0,
+  //   },
+  // });
+  return { room, supplier };
 };
 
 main();

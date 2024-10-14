@@ -16,9 +16,19 @@ export class MovementRequestService {
     return movement;
   }
   async findAll() {
-    return this.prismaService.movement_Request.findMany();
+    const items = await this.prismaService.items.findMany({
+      where: {
+        availbility: true,
+      },
+    });
+
+    return { items };
   }
-  async createMovement() {}
+  async createMovement() {
+    // const items = await this.prismaService.items.create();
+    // console.log(items);
+    // return items;
+  }
   async updateMovement() {}
   async deleteMovement(id: number) {
     const movement = await this.prismaService.movement_Request.delete({
@@ -30,3 +40,10 @@ export class MovementRequestService {
     return movement;
   }
 }
+
+// 1.list all data di table where availbility true
+// 2.if make movement request then update item ->
+// status -> pending
+// availbility -> false
+// requesterName -> diisi nama requesterName
+// approvedBy -> bisa diisi null

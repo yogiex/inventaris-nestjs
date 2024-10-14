@@ -32,12 +32,35 @@ export class ItemsService {
       },
     });
   }
-  async create(data: CreateItem) {
-    return this.prismaService.items.create({
+  async create(data: any) {
+    const datas = await this.prismaService.items.create({
       data: data,
+      include: {
+        supplier: true,
+        room: true,
+        users: {
+          select: {
+            username: true,
+            id: true,
+            role: true,
+          },
+        },
+      },
     });
+
+    // const reqUser =
+    const log = await this.prismaService.movement_Request_History_Log.create({
+      data: {
+        inputName: datas.name,
+        inputBy: datas.users.username,
+        roomName: datas.room.name,
+        quantity: datas.quantity,
+        status: datas.status,
+      },
+    });
+    return { datas, log };
   }
-  async update(id: ItemIdDTO, datas: UpdateItem) {
+  async update(id: ItemIdDTO, datas: any) {
     const item = await this.prismaService.items.update({
       where: {
         id: id.id,

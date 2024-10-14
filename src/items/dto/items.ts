@@ -22,6 +22,18 @@ export class Items {
 
   @ApiProperty()
   supplierId: number;
+
+  @ApiProperty()
+  inputBy: number;
+
+  @ApiProperty()
+  status: string;
+
+  @ApiProperty()
+  availbility: boolean;
+
+  @ApiProperty()
+  type: string;
 }
 
 export class CreateItem extends OmitType(Items, ['id']) {}
