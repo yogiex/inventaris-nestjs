@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Patch, Delete, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Req,
+  Body,
+  Param,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import logger from 'src/logger';
 import { SupplierService } from './supplier.service';
+import { SupplierDTO } from './dto/supplier';
 
 @ApiTags('Supplier')
 @Controller('supplier')
@@ -17,7 +27,7 @@ export class SupplierController {
   }
 
   @Get(':id')
-  async findOneSupplier(id: number, @Req() request: Request) {
+  async findOneSupplier(@Param() id: number, @Req() request: Request) {
     logger.info({
       'request method': request.method,
       'request header': request.headers,
@@ -26,7 +36,7 @@ export class SupplierController {
   }
 
   @Post()
-  async createSupplier(data: any, @Req() request: Request) {
+  async createSupplier(@Body() data: SupplierDTO, @Req() request: Request) {
     logger.info({
       'request method': request.method,
       'request header': request.headers,
@@ -35,7 +45,7 @@ export class SupplierController {
   }
 
   @Patch()
-  async editSupplier(id: number, data: any, @Req() request: Request) {
+  async editSupplier(id: number, @Body() data: any, @Req() request: Request) {
     logger.info({
       'request method': request.method,
       'request header': request.headers,
@@ -43,8 +53,8 @@ export class SupplierController {
     return this.supplierService.updateSupplier(id, data);
   }
 
-  @Delete()
-  async deleteSupplier(id: number, @Req() request: Request) {
+  @Delete(':id')
+  async deleteSupplier(@Param() id: number, @Req() request: Request) {
     logger.info({
       'request method': request.method,
       'request header': request.headers,
