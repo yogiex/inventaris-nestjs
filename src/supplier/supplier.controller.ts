@@ -7,7 +7,7 @@ import { SupplierService } from './supplier.service';
 @Controller('supplier')
 export class SupplierController {
   constructor(private supplierService: SupplierService) {}
-  @Get('supplier')
+  @Get()
   async findAllSupplier(@Req() request: Request) {
     logger.info({
       'request method': request.method,
@@ -16,7 +16,7 @@ export class SupplierController {
     return this.supplierService.findAllSupplier();
   }
 
-  @Get('supplier/:id')
+  @Get(':id')
   async findOneSupplier(id: number, @Req() request: Request) {
     logger.info({
       'request method': request.method,
@@ -25,7 +25,7 @@ export class SupplierController {
     return this.supplierService.findOneSupplier(id);
   }
 
-  @Post('supplier')
+  @Post()
   async createSupplier(data: any, @Req() request: Request) {
     logger.info({
       'request method': request.method,
@@ -34,7 +34,7 @@ export class SupplierController {
     return this.supplierService.addSupplier(data);
   }
 
-  @Patch('supplier')
+  @Patch()
   async editSupplier(id: number, data: any, @Req() request: Request) {
     logger.info({
       'request method': request.method,
@@ -43,7 +43,7 @@ export class SupplierController {
     return this.supplierService.updateSupplier(id, data);
   }
 
-  @Delete('supplier')
+  @Delete()
   async deleteSupplier(id: number, @Req() request: Request) {
     logger.info({
       'request method': request.method,

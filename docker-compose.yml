@@ -32,6 +32,8 @@ services:
     environment:
       PORT: 4000
     command: bash -c "npx prisma migrate reset --force && npm run dev"
+    volumes:
+     - ./logs:/usr/src/app/logs
     
 
 
