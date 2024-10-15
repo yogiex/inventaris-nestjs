@@ -17,21 +17,21 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8080:8080 
-  # web:
-  #   build:
-  #     context: . 
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - db
-  #   links:
-  #     - db
-  #   ports:
-  #    - '4000:4000' 
-  #   container_name: "iflab_warehouse"
-  #   environment:
-  #     PORT: 4000
-  #   command: bash -c "npx prisma migrate dev && npm run dev"
+      - 8081:8080 
+  web:
+    build:
+      context: . 
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+     - '4000:4000' 
+    container_name: "iflab_warehouse"
+    environment:
+      PORT: 4000
+    command: bash -c "npx prisma migrate reset --force && npm run dev"
     
 
 

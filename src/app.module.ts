@@ -7,6 +7,7 @@ import { RoomsModule } from './rooms/rooms.module';
 import { MovementRequestModule } from './movement_request/movement_request.module';
 import { UsersModule } from './users/users.module';
 import { PrismaService } from './prisma.service';
+import { SupplierModule } from './supplier/supplier.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PrismaService } from './prisma.service';
     RoomsModule,
     MovementRequestModule,
     UsersModule,
+    SupplierModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

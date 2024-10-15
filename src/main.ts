@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 4000;
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('IFLAB Warehouse')
@@ -18,7 +18,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
   app.enableCors({
     allowedHeaders: '*',
-    origin: 'http://localhost:3000/',
+    origin: '*',
     credentials: true,
   });
   await app.listen(PORT);
