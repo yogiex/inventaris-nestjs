@@ -35,8 +35,20 @@ const main = async () => {
       role: 1,
     },
   });
-  // const mq = await
-  return { room, supplier, user, userPetugas };
+  const mq = await prisma.items.create({
+    data: {
+      name: 'Asus ROG',
+      description: 'deskripsi',
+      quantity: 100,
+      roomId: 1,
+      supplierId: 1,
+      inputBy: 1,
+      status: 'BARANG_MASUK',
+      availability: true,
+      type: 'INVENTORY',
+    },
+  });
+  return { room, supplier, user, userPetugas, mq };
 };
 
 console.log(main());
