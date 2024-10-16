@@ -7,10 +7,10 @@ import { CreateItem, ItemIdDTO, UpdateItem } from './dto/items';
 export class ItemsService {
   constructor(private prismaService: PrismaService) {}
 
-  async findOne(data: number) {
+  async findOne(data: ItemIdDTO) {
     return this.prismaService.items.findUnique({
       where: {
-        id: data,
+        id: +data.id,
       },
     });
   }
@@ -71,10 +71,10 @@ export class ItemsService {
 
     return item;
   }
-  async delete(id: ItemIdDTO) {
+  async delete(data: ItemIdDTO) {
     const user = await this.prismaService.users.delete({
       where: {
-        id: id.id,
+        id: +data.id,
       },
     });
     if (!user) throw new NotFoundException('user not found');
