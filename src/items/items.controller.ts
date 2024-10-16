@@ -16,7 +16,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import logger from 'src/logger';
 
-@ApiTags('Items')
+@ApiTags('Items_Type')
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
 @Controller('items')
@@ -60,7 +60,7 @@ export class ItemsController {
       'request method': request.method,
       'request header': request.headers,
     });
-    return this.itemService.update(id, datas);
+    return this.itemService.update(id.id, datas);
   }
 
   @Delete(':id')
@@ -69,6 +69,6 @@ export class ItemsController {
       'request method': request.method,
       'request header': request.headers,
     });
-    return this.itemService.delete(id);
+    return this.itemService.delete(id.id);
   }
 }

@@ -33,12 +33,12 @@ model Users {
   role                       Int
   movement_requests_approved Movement_Request[] @relation("ApprovedBy")
   movement_request_assignTo  Movement_Request[] @relation("AssignTo")
-  items                      Items[]
+  items                      Items_type[]
   createdAt                  DateTime           @default(now())
   update_at                  DateTime           @updatedAt
 }
 
-model Items {
+model Items_type {
   id               Int               @id @default(autoincrement())
   name             String
   description      String
@@ -57,39 +57,49 @@ model Items {
   update_at        DateTime          @updatedAt
 }
 
+model Items {
+  id        Int    @id @default(autoincrement())
+  roomId    Int
+  room      Room   @relation(fields: [roomId], references: [id])
+  condition String
+  spec      String
+  image     String
+}
+
 model Room {
-  id         Int      @id @default(autoincrement())
+  id         Int          @id @default(autoincrement())
   name       String
   building   String
   number     String
   address    String
-  created_at DateTime @default(now())
-  update_at  DateTime @updatedAt
+  created_at DateTime     @default(now())
+  update_at  DateTime     @updatedAt
   items      Items[]
+  Items_type Items_type[]
 }
 
 model Supplier {
-  id         Int      @id @default(autoincrement())
+  id         Int          @id @default(autoincrement())
   name       String
   phone      String
-  items      Items[]
-  created_at DateTime @default(now())
-  update_at  DateTime @updatedAt
+  created_at DateTime     @default(now())
+  update_at  DateTime     @updatedAt
+  Items_type Items_type[]
 }
 
 model Movement_Request {
-  id             Int      @id @default(autoincrement())
+  id             Int        @id @default(autoincrement())
   title          String
   requesterName  String
-  itemId         Int      @unique
-  itemMove       Items    @relation(fields: [itemId], references: [id])
+  itemId         Int        @unique
+  itemMove       Items_type @relation(fields: [itemId], references: [id])
   status         String
-  approvedBy     Users?   @relation("ApprovedBy", fields: [userId], references: [id])
+  approvedBy     Users?     @relation("ApprovedBy", fields: [userId], references: [id])
   userId         Int?
-  assignTo       Users?   @relation("AssignTo", fields: [userAssignToId], references: [id])
+  assignTo       Users?     @relation("AssignTo", fields: [userAssignToId], references: [id])
   userAssignToId Int?
-  created_at     DateTime @default(now())
-  updated_at     DateTime @updatedAt
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
 }
 
 model Movement_Request_History_Log {

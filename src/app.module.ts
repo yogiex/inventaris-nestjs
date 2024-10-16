@@ -8,6 +8,7 @@ import { MovementRequestModule } from './movement_request/movement_request.modul
 import { UsersModule } from './users/users.module';
 import { PrismaService } from './prisma.service';
 import { SupplierModule } from './supplier/supplier.module';
+import { ItemTypeModule } from './item_type/item_type.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { SupplierModule } from './supplier/supplier.module';
     MovementRequestModule,
     UsersModule,
     SupplierModule,
+    ItemTypeModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
