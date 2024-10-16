@@ -30,7 +30,7 @@ export class Items {
   status: string;
 
   @ApiProperty()
-  availbility: boolean;
+  availability: boolean;
 
   @ApiProperty()
   type: string;
