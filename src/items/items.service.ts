@@ -48,7 +48,6 @@ export class ItemsService {
       },
     });
 
-    // const reqUser =
     const log = await this.prismaService.movement_Request_History_Log.create({
       data: {
         inputName: datas.name,
