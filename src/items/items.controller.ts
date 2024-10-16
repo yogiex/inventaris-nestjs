@@ -24,11 +24,12 @@ export class ItemsController {
   constructor(private itemService: ItemsService) {}
 
   @Get(':id')
-  async findOne(@Req() request: Request) {
+  async findOne(@Param() id: any, @Req() request: Request) {
     logger.info({
       'request method': request.method,
       'request header': request.headers,
     });
+    return this.itemService.findOne(id);
   }
 
   @Get('/')
