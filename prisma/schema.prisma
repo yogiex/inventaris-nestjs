@@ -27,15 +27,15 @@ enum TypeBarang {
 }
 
 model Users {
-  id                Int                @id @default(autoincrement())
-  username          String             @unique
-  password          String
-  role              Int
+  id                         Int                @id @default(autoincrement())
+  username                   String             @unique
+  password                   String
+  role                       Int
   movement_requests_approved Movement_Request[] @relation("ApprovedBy")
-  movement_request_assignTo Movement_Request[] @relation("AssignTo")
-  items             Items[]
-  createdAt         DateTime           @default(now())
-  update_at         DateTime           @updatedAt
+  movement_request_assignTo  Movement_Request[] @relation("AssignTo")
+  items                      Items[]
+  createdAt                  DateTime           @default(now())
+  update_at                  DateTime           @updatedAt
 }
 
 model Items {
@@ -43,14 +43,14 @@ model Items {
   name             String
   description      String
   quantity         Int
-  roomId           Int               
+  roomId           Int
   room             Room              @relation(fields: [roomId], references: [id])
-  supplierId       Int               
+  supplierId       Int
   supplier         Supplier          @relation(fields: [supplierId], references: [id])
-  inputBy          Int 
+  inputBy          Int
   users            Users             @relation(fields: [inputBy], references: [id])
   status           StatusItem        @default(BARANG_MASUK)
-  availbility      Boolean           @default(true)
+  availability     Boolean           @default(true)
   type             TypeBarang
   movement_request Movement_Request?
   created_at       DateTime          @default(now())
@@ -78,30 +78,30 @@ model Supplier {
 }
 
 model Movement_Request {
-  id                    Int      @id @default(autoincrement())
-  title                 String
-  requesterName         String
-  itemId                Int      @unique
-  itemMove              Items    @relation(fields: [itemId], references: [id])
-  status                String
-  approvedBy            Users?    @relation("ApprovedBy",fields: [userId], references: [id])
-  userId                Int?
-  assignTo              Users? @relation("AssignTo",fields: [userAssignToId], references: [id])
-  userAssignToId        Int?
-  created_at            DateTime @default(now())
-  updated_at            DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  title          String
+  requesterName  String
+  itemId         Int      @unique
+  itemMove       Items    @relation(fields: [itemId], references: [id])
+  status         String
+  approvedBy     Users?   @relation("ApprovedBy", fields: [userId], references: [id])
+  userId         Int?
+  assignTo       Users?   @relation("AssignTo", fields: [userAssignToId], references: [id])
+  userAssignToId Int?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
 }
 
 model Movement_Request_History_Log {
-  id            Int @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   title         String?
   requesterName String?
   approvedBy    String?
   assignTo      String?
-  inputBy       String 
-  inputName     String 
-  quantity      Int 
-  roomName      String 
+  inputBy       String
+  inputName     String
+  quantity      Int
+  roomName      String
   status        String
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt

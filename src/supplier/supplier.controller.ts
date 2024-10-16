@@ -7,12 +7,16 @@ import {
   Req,
   Body,
   Param,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import logger from 'src/logger';
 import { SupplierService } from './supplier.service';
 import { SupplierDTO } from './dto/supplier';
+import { JwtGuard } from 'src/auth/jwt.guard';
 
+@ApiBearerAuth()
+@UseGuards(JwtGuard)
 @ApiTags('Supplier')
 @Controller('supplier')
 export class SupplierController {
