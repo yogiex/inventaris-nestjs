@@ -7,10 +7,10 @@ import { CreateItem, ItemIdDTO, UpdateItem } from './dto/items';
 export class ItemsService {
   constructor(private prismaService: PrismaService) {}
 
-  async findOne(data: ItemIdDTO) {
+  async findOne(data: number) {
     return this.prismaService.items.findUnique({
       where: {
-        id: data.id,
+        id: data,
       },
     });
   }
