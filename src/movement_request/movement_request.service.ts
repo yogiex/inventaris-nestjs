@@ -16,6 +16,11 @@ export class MovementRequestService {
     return movement;
   }
   async findAll() {
+    // const items = await this.prismaService.items.findMany({
+    //   where: {
+    //     availability: true,
+    //   },
+    // });
     const items = await this.prismaService.items.findMany({
       where: {
         availability: true,

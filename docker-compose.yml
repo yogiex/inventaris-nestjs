@@ -31,7 +31,7 @@ services:
     container_name: "iflab_warehouse"
     environment:
       PORT: 4000
-    command: bash -c "npx prisma migrate reset --force && npm run dev"
+    command: bash -c "npx prisma migrate reset --force && npx ts-node test/prima-insert-query.ts &&npm run dev"
     volumes:
      - ./logs:/usr/src/app/logs
     
