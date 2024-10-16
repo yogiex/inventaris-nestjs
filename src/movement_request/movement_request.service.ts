@@ -21,7 +21,7 @@ export class MovementRequestService {
     //     availability: true,
     //   },
     // });
-    const items = await this.prismaService.items.findMany({
+    const items = await this.prismaService.items_type.findMany({
       where: {
         availability: true,
       },
