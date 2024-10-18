@@ -4,15 +4,6 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class ItemTypeService {
-  //   constructor(private prismaService: PrismaService) {}
-
-  //   async findAll() {
-  //     return this.prismaService.ite
-  //   }
-  //   async findOne() {}
-  //   async create() {}
-  //   async updateItem() {}
-  //   async deleteItem() {}
   constructor(private prismaService: PrismaService) {}
 
   async findOne(data: ItemIdDTO) {
@@ -26,21 +17,12 @@ export class ItemTypeService {
   async findAll() {
     return this.prismaService.items_type.findMany({
       include: {
-        supplier: {
-          select: {
-            name: true,
-          },
-        },
-        room: {
-          select: {
-            name: true,
-            building: true,
-            address: true,
-          },
-        },
+        supplier: true,
+        room: true,
       },
     });
   }
+
   async create(data: any) {
     const datas = await this.prismaService.items_type.create({
       data: data,
@@ -69,7 +51,7 @@ export class ItemTypeService {
     return { datas, log };
   }
   async update(id: ItemIdDTO, datas: any) {
-    const item = await this.prismaService.items.update({
+    const item = await this.prismaService.items_type.update({
       where: {
         id: +id.id,
       },

@@ -9,31 +9,13 @@ export class Items {
   id?: number;
 
   @ApiProperty()
-  name: string;
+  image: string;
 
   @ApiProperty()
-  description: string;
+  condition: string;
 
   @ApiProperty()
-  quantity: number;
-
-  @ApiProperty()
-  roomId: number;
-
-  @ApiProperty()
-  supplierId: number;
-
-  @ApiProperty()
-  inputBy: number;
-
-  @ApiProperty()
-  status: string;
-
-  @ApiProperty()
-  availability: boolean;
-
-  @ApiProperty()
-  type: string;
+  spec: string;
 }
 
 export class CreateItem extends OmitType(Items, ['id']) {}

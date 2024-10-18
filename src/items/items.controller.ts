@@ -16,7 +16,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import logger from 'src/logger';
 
-@ApiTags('Items_Type')
+@ApiTags('Items')
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
 @Controller('items')
@@ -32,7 +32,7 @@ export class ItemsController {
     return this.itemService.findOne(id);
   }
 
-  @Get('/')
+  @Get()
   async findAll(@Req() request: Request) {
     logger.info({
       'request method': request.method,
