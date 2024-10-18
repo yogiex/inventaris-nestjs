@@ -9,12 +9,15 @@ import {
   Post,
   UseGuards,
   Req,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItem, ItemIdDTO, UpdateItem } from './dto/items';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import logger from 'src/logger';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Items')
 @ApiBearerAuth()

@@ -41,4 +41,8 @@ export class ItemsService {
     if (!datas) throw new NotFoundException('data not found');
     return datas;
   }
+
+  async upload(data: any) {
+    return data;
+  }
 }

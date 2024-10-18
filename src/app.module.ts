@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { PrismaService } from './prisma.service';
 import { SupplierModule } from './supplier/supplier.module';
 import { ItemTypeModule } from './item_type/item_type.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -19,6 +20,9 @@ import { ItemTypeModule } from './item_type/item_type.module';
     UsersModule,
     SupplierModule,
     ItemTypeModule,
+    MulterModule.register({
+      dest: './uploads',
+    }),
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
