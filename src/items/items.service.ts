@@ -6,10 +6,10 @@ import { PrismaService } from 'src/prisma.service';
 @Injectable()
 export class ItemsService {
   constructor(private prismaService: PrismaService) {}
-  async findOne(id: number) {
+  async findOne(id: string) {
     const data = await this.prismaService.items.findUnique({
       where: {
-        id: +id,
+        id: id,
       },
     });
     if (!data) throw new NotFoundException('data not found');
@@ -22,20 +22,20 @@ export class ItemsService {
       data: data,
     });
   }
-  async update(id: number, data: any) {
+  async update(id: string, data: any) {
     const datas = await this.prismaService.items.update({
       where: {
-        id: +id,
+        id: id,
       },
       data: data,
     });
     if (!data) throw new NotFoundException('data not found');
     return datas;
   }
-  async delete(id: number) {
+  async delete(id: string) {
     const datas = await this.prismaService.items.delete({
       where: {
-        id: +id,
+        id: id,
       },
     });
     if (!datas) throw new NotFoundException('data not found');

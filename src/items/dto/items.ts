@@ -6,7 +6,7 @@ export enum ItemType {
 }
 export class Items {
   @ApiProperty()
-  id?: number;
+  id?: string;
 
   @ApiProperty()
   image: string;

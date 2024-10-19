@@ -6,12 +6,13 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["omitApi"]
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto]
 }
 
 enum StatusItem {
@@ -55,15 +56,20 @@ model Items_type {
   movement_request Movement_Request?
   created_at       DateTime          @default(now())
   update_at        DateTime          @updatedAt
+  Items            Items[]
 }
 
 model Items {
-  id        Int    @id @default(autoincrement())
-  roomId    Int
-  room      Room   @relation(fields: [roomId], references: [id])
-  condition String
-  spec      String
-  image     String
+  id         String     @id @default(uuid())
+  roomId     Int
+  room       Room       @relation(fields: [roomId], references: [id])
+  condition  String
+  spec       String
+  image      String
+  typeId     Int
+  itemType   Items_type @relation(fields: [typeId], references: [id])
+  created_at DateTime   @default(now())
+  update_at  DateTime   @updatedAt
 }
 
 model Room {

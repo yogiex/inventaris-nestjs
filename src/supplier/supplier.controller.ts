@@ -9,7 +9,7 @@ import {
   Param,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import logger from 'src/logger';
 import { SupplierService } from './supplier.service';
 import { SupplierDTO } from './dto/supplier';
@@ -31,6 +31,7 @@ export class SupplierController {
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', required: true })
   async findOneSupplier(@Param() id: number, @Req() request: Request) {
     logger.info({
       'request method': request.method,
@@ -48,7 +49,8 @@ export class SupplierController {
     return this.supplierService.addSupplier(data);
   }
 
-  @Patch()
+  @Patch(':id')
+  @ApiParam({ name: 'id', required: true })
   async editSupplier(id: number, @Body() data: any, @Req() request: Request) {
     logger.info({
       'request method': request.method,
@@ -58,6 +60,7 @@ export class SupplierController {
   }
 
   @Delete(':id')
+  @ApiParam({ name: 'id', required: true })
   async deleteSupplier(@Param() id: number, @Req() request: Request) {
     logger.info({
       'request method': request.method,

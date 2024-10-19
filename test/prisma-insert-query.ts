@@ -35,7 +35,7 @@ const main = async () => {
       role: 1,
     },
   });
-  const itemsInput = await prisma.items_type.createMany({
+  const items_type_Input = await prisma.items_type.createMany({
     data: [
       {
         name: 'Komputer Asus ROG',
@@ -59,113 +59,19 @@ const main = async () => {
         availability: true,
         type: 'INVENTORY',
       },
-      {
-        name: 'Meja Asus ROG',
-        description: 'deskripsi',
-        quantity: 100,
-        roomId: 1,
-        supplierId: 1,
-        inputBy: 2,
-        status: 'BARANG_MASUK',
-        availability: true,
-        type: 'INVENTORY',
-      },
-      {
-        name: 'Monitor HP',
-        description: 'deskripsi',
-        quantity: 100,
-        roomId: 1,
-        supplierId: 1,
-        inputBy: 2,
-        status: 'BARANG_MASUK',
-        availability: true,
-        type: 'INVENTORY',
-      },
-      {
-        name: 'Komputer Montech',
-        description: 'deskripsi',
-        quantity: 100,
-        roomId: 1,
-        supplierId: 1,
-        inputBy: 2,
-        status: 'BARANG_MASUK',
-        availability: true,
-        type: 'INVENTORY',
-      },
-      {
-        name: 'Komputer DELL',
-        description: 'deskripsi',
-        quantity: 100,
-        roomId: 1,
-        supplierId: 1,
-        inputBy: 2,
-        status: 'BARANG_MASUK',
-        availability: true,
-        type: 'INVENTORY',
-      },
-      {
-        name: 'Monitor LG',
-        description: 'deskripsi',
-        quantity: 100,
-        roomId: 1,
-        supplierId: 1,
-        inputBy: 2,
-        status: 'BARANG_MASUK',
-        availability: true,
-        type: 'INVENTORY',
-      },
-      {
-        name: 'Meja Chitose',
-        description: 'deskripsi',
-        quantity: 100,
-        roomId: 1,
-        supplierId: 1,
-        inputBy: 2,
-        status: 'BARANG_MASUK',
-        availability: true,
-        type: 'INVENTORY',
-      },
-      {
-        name: 'Kursi chitose',
-        description: 'deskripsi',
-        quantity: 100,
-        roomId: 1,
-        supplierId: 1,
-        inputBy: 2,
-        status: 'BARANG_MASUK',
-        availability: true,
-        type: 'INVENTORY',
-      },
-      {
-        name: 'Kabel VGA',
-        description: 'deskripsi',
-        quantity: 100,
-        roomId: 1,
-        supplierId: 1,
-        inputBy: 2,
-        status: 'BARANG_MASUK',
-        availability: true,
-        type: 'INVENTORY',
-      },
-      {
-        name: 'Kabel HDMI',
-        description: 'deskripsi',
-        quantity: 100,
-        roomId: 1,
-        supplierId: 1,
-        inputBy: 2,
-        status: 'BARANG_MASUK',
-        availability: true,
-        type: 'INVENTORY',
-      },
     ],
   });
 
-  // const mr = await prisma.movement_Request.create({
-  //   data:
-  // })
+  // const itemsInput = await prisma.items.create({
+  //   data: {
+  //     roomId: 1,
+  //     condition: 'baik',
+  //     spec: '',
+  //     image: 'tes',
+  //   },
+  // });
 
-  return { room, supplier, user, userPetugas, itemsInput };
+  return { room, supplier, user, userPetugas, items_type_Input };
 };
 
 console.log(main());

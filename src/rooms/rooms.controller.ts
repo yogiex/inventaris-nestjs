@@ -9,7 +9,7 @@ import {
   Param,
   Req,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { RoomsService } from './rooms.service';
 import { CreateRoom, RoomIdDto } from './dto/rooms';
 import logger from 'src/logger';
@@ -28,7 +28,8 @@ export class RoomsController {
   }
 
   @Get(':id')
-  async findOne(data: RoomIdDto, @Req() request: Request) {
+  @ApiParam({ name: 'id', required: true })
+  async findOne(@Param() data: RoomIdDto, @Req() request: Request) {
     logger.info({
       'request method': request.method,
       'request header': request.headers,
@@ -45,7 +46,8 @@ export class RoomsController {
     return this.roomService.create(data);
   }
 
-  @Patch()
+  @Patch(':id')
+  @ApiParam({ name: 'id', required: true })
   async update(
     @Param() id: number,
     @Body() data: any,
@@ -59,6 +61,7 @@ export class RoomsController {
   }
 
   @Delete(':id')
+  @ApiParam({ name: 'id', required: true })
   async delete(@Param() id: number, @Req() request: Request) {
     logger.info({
       'request method': request.method,

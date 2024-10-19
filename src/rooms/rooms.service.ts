@@ -8,7 +8,7 @@ export class RoomsService {
   async findOne(data: RoomIdDto) {
     return this.prismaService.room.findUnique({
       where: {
-        id: data.id,
+        id: +data.id,
       },
     });
   }

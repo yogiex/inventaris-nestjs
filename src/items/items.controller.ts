@@ -11,13 +11,18 @@ import {
   Req,
   UseInterceptors,
   UploadedFile,
+  Res,
+  NotFoundException,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItem, ItemIdDTO, UpdateItem } from './dto/items';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import logger from 'src/logger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
+import { createReadStream, existsSync } from 'fs';
+import { join } from 'path';
 
 @ApiTags('Items')
 @ApiBearerAuth()
@@ -73,5 +78,15 @@ export class ItemsController {
       'request header': request.headers,
     });
     return this.itemService.delete(id.id);
+  }
+
+  @Get('file/uploads/:filename')
+  @ApiParam({ name: 'filename', required: true })
+  async showFile(@Param() filename: string, @Res() res: Response) {
+    const filePath = join(process.cwd(), 'uploads', filename);
+    if (!existsSync(filePath)) throw new NotFoundException('File Not Found');
+    res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+    const fileStream = createReadStream(filePath);
+    return fileStream.pipe(res);
   }
 }

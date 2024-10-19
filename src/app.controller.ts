@@ -2,18 +2,28 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
+  Param,
   Post,
   Req,
+  Res,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import logger from './logger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { join } from 'path';
+import { createReadStream, existsSync } from 'fs';
+import { PrismaService } from './prisma.service';
+import { ApiParam } from '@nestjs/swagger';
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private prismaService: PrismaService,
+  ) {}
 
   @Get()
   getHello(@Req() request: Request): string {
@@ -33,12 +43,34 @@ export class AppController {
   ) {
     const linkFile = file.path;
     const fullpathfile = `${req.protocol}://${req.get('host')}${req.originalUrl}/${linkFile}`;
-    // const timestampFile = fil
-    return { data, file, linkFile, fullpathfile };
+    // const timestampFile = fil;
+    // return { data, file, linkFile, fullpathfile };
+    const datas = await this.prismaService.items.create({
+      data: {
+        roomId: Number(data.roomId),
+        condition: data.condition,
+        image: fullpathfile.toString(),
+        spec: data.spec,
+        typeId: Number(data.typeId),
+      },
+      include: {
+        room: true,
+      },
+    });
+    return datas;
   }
 
   @Get('file/uploads/:filename')
-  async getFIles(@Req() filename: any) {
-    return filename;
+  @ApiParam({ name: 'filename', required: true })
+  async getFiles(@Param() filename: string, @Res() res: Response) {
+    const filePath = join(process.cwd(), '../uploads', filename);
+    const file = createReadStream(filePath);
+    file.pipe(res);
+    // console.log(filePath);
+    // if (!existsSync(filePath)) throw new NotFoundException('File Not Found');
+    // res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+    // const fileStream = createReadStream(filePath);
+
+    // fileStream.pipe(res), filePath;
   }
 }
