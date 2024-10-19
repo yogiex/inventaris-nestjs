@@ -32,6 +32,7 @@ export class ItemsController {
   constructor(private itemService: ItemsService) {}
 
   @Get(':id')
+  @ApiParam({ name: 'id', required: true })
   async findOne(@Param() id: any, @Req() request: Request) {
     logger.info({
       'request method': request.method,
@@ -59,6 +60,7 @@ export class ItemsController {
   }
 
   @Patch(':id')
+  @ApiParam({ name: 'id', required: true })
   async update(
     @Param() id: ItemIdDTO,
     @Body() datas: UpdateItem,
@@ -72,6 +74,7 @@ export class ItemsController {
   }
 
   @Delete(':id')
+  @ApiParam({ name: 'id', required: true })
   async delete(@Param() id: ItemIdDTO, @Req() request: Request) {
     logger.info({
       'request method': request.method,

@@ -7,6 +7,7 @@ import {
   Post,
   Req,
   Res,
+  StreamableFile,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -42,35 +43,31 @@ export class AppController {
     @Req() req: Request,
   ) {
     const linkFile = file.path;
-    const fullpathfile = `${req.protocol}://${req.get('host')}${req.originalUrl}/${linkFile}`;
+    const fullpathfile = `${req.protocol}://${req.get('host')}${req.originalUrl}/uploads/${file.originalname}`;
     // const timestampFile = fil;
-    // return { data, file, linkFile, fullpathfile };
-    const datas = await this.prismaService.items.create({
-      data: {
-        roomId: Number(data.roomId),
-        condition: data.condition,
-        image: fullpathfile.toString(),
-        spec: data.spec,
-        typeId: Number(data.typeId),
-      },
-      include: {
-        room: true,
-      },
-    });
-    return datas;
+    return { data, file, linkFile, fullpathfile };
+    // const datas = await this.prismaService.items.create({
+    //   data: {
+    //     roomId: Number(data.roomId),
+    //     condition: data.condition,
+    //     image: fullpathfile.toString(),
+    //     spec: data.spec,
+    //     typeId: Number(data.typeId),
+    //   },
+    //   include: {
+    //     room: true,
+    //   },
+    // });
+    // return datas;
   }
 
   @Get('file/uploads/:filename')
   @ApiParam({ name: 'filename', required: true })
-  async getFiles(@Param() filename: string, @Res() res: Response) {
-    const filePath = join(process.cwd(), '../uploads', filename);
-    const file = createReadStream(filePath);
-    file.pipe(res);
-    // console.log(filePath);
+  async getFiles(@Param() file: string, @Res() res: Response) {
+    const filePath = createReadStream(join(process.cwd(), 'uploads'));
+    return new StreamableFile(filePath);
+    console.log(filePath);
     // if (!existsSync(filePath)) throw new NotFoundException('File Not Found');
     // res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
-    // const fileStream = createReadStream(filePath);
-
-    // fileStream.pipe(res), filePath;
   }
 }
