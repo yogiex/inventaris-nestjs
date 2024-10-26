@@ -10,17 +10,18 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
-import logger from 'src/logger';
 import { SupplierService } from './supplier.service';
-import { SupplierDTO } from './dto/supplier';
+import { CreateSupplierDTO, UpdateSupplierDTO } from './dto/supplier';
 import { JwtGuard } from 'src/auth/jwt.guard';
+import logger from 'src/logger';
 
-@ApiBearerAuth()
-@UseGuards(JwtGuard)
 @ApiTags('Supplier')
+@ApiBearerAuth()              // Untuk dokumentasi Swagger
+@UseGuards(JwtGuard)          // Menerapkan JWT Guard untuk semua endpoints
 @Controller('supplier')
 export class SupplierController {
   constructor(private supplierService: SupplierService) {}
+
   @Get()
   async findAllSupplier(@Req() request: Request) {
     logger.info({
@@ -32,7 +33,7 @@ export class SupplierController {
 
   @Get(':id')
   @ApiParam({ name: 'id', required: true })
-  async findOneSupplier(@Param() id: number, @Req() request: Request) {
+  async findOneSupplier(@Param('id') id: number, @Req() request: Request) {
     logger.info({
       'request method': request.method,
       'request header': request.headers,
@@ -41,7 +42,7 @@ export class SupplierController {
   }
 
   @Post()
-  async createSupplier(@Body() data: SupplierDTO, @Req() request: Request) {
+  async createSupplier(@Body() data: CreateSupplierDTO, @Req() request: Request) {
     logger.info({
       'request method': request.method,
       'request header': request.headers,
@@ -51,7 +52,11 @@ export class SupplierController {
 
   @Patch(':id')
   @ApiParam({ name: 'id', required: true })
-  async editSupplier(id: number, @Body() data: any, @Req() request: Request) {
+  async updateSupplier(
+    @Param('id') id: number,
+    @Body() data: UpdateSupplierDTO,
+    @Req() request: Request,
+  ) {
     logger.info({
       'request method': request.method,
       'request header': request.headers,
@@ -61,11 +66,22 @@ export class SupplierController {
 
   @Delete(':id')
   @ApiParam({ name: 'id', required: true })
-  async deleteSupplier(@Param() id: number, @Req() request: Request) {
+  async deleteSupplier(@Param('id') id: number, @Req() request: Request) {
     logger.info({
       'request method': request.method,
       'request header': request.headers,
     });
     return this.supplierService.deleteSupplier(id);
+  }
+
+  // Endpoint tambahan untuk mendapatkan inventory supplier
+  @Get(':id/inventory')
+  @ApiParam({ name: 'id', required: true })
+  async getSupplierInventory(@Param('id') id: number, @Req() request: Request) {
+    logger.info({
+      'request method': request.method,
+      'request header': request.headers,
+    });
+    return this.supplierService.getSupplierInventory(id);
   }
 }

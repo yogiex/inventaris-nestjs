@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MovementRequestService } from './movement_request.service';
+import { MovementRequestService } from './movement.service';
 
 describe('MovementRequestService', () => {
   let service: MovementRequestService;

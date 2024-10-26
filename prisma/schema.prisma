@@ -15,73 +15,120 @@ datasource db {
   extensions = [pgcrypto]
 }
 
-enum StatusItem {
+enum ItemAvailability {
+  TERSEDIA
+  TIDAK_TERSEDIA
+}
+
+enum MovementStatus {
+  PENGAJUAN
+  DISETUJUI
+  DITOLAK
+  SEDANG_DIPINDAHKAN
+  SELESAI
+}
+
+enum MovementType {
   BARANG_MASUK
-  PENDING
-  BARANG_SEDANG_DIPINDAHKAN
-  BARANG_BERHASIL_DIPINDAHKAN
+  BARANG_KELUAR
+  PEMINDAHAN
 }
 
 enum TypeBarang {
-  CONSUMEABLE
+  CONSUMABLE
   INVENTORY
 }
 
 model Users {
-  id                         Int                @id @default(autoincrement())
-  username                   String             @unique
-  password                   String
-  role                       Int
-  movement_requests_approved Movement_Request[] @relation("ApprovedBy")
-  movement_request_assignTo  Movement_Request[] @relation("AssignTo")
-  items                      Items_type[]
-  createdAt                  DateTime           @default(now())
-  update_at                  DateTime           @updatedAt
+  id                Int          @id @default(autoincrement())
+  username          String       @unique
+  password          String
+  role              Int
+  itemsAdded        Items_type[]
+  movementsApproved Movement[]   @relation("Approver")
+  movementsAssigned Movement[]   @relation("Assignee")
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
 }
 
 model Items_type {
-  id               Int               @id @default(autoincrement())
-  name             String
-  description      String
-  quantity         Int
-  roomId           Int
-  room             Room              @relation(fields: [roomId], references: [id])
-  supplierId       Int
-  supplier         Supplier          @relation(fields: [supplierId], references: [id])
-  inputBy          Int
-  users            Users             @relation(fields: [inputBy], references: [id])
-  status           StatusItem        @default(BARANG_MASUK)
-  availability     Boolean           @default(true)
-  type             TypeBarang
-  movement_request Movement_Request?
-  created_at       DateTime          @default(now())
-  update_at        DateTime          @updatedAt
-  Items            Items[]
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String
+  quantity    Int
+  supplierId  Int
+  supplier    Supplier   @relation(fields: [supplierId], references: [id])
+  inputBy     Int
+  users       Users      @relation(fields: [inputBy], references: [id])
+  type        TypeBarang
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  Items       Items[]
 }
 
 model Items {
-  id         String     @id @default(uuid())
-  roomId     Int
-  room       Room       @relation(fields: [roomId], references: [id])
-  condition  String
-  spec       String
-  image      String
-  typeId     Int
-  itemType   Items_type @relation(fields: [typeId], references: [id])
-  created_at DateTime   @default(now())
-  update_at  DateTime   @updatedAt
+  id           String           @id @default(uuid())
+  availability ItemAvailability @default(TERSEDIA)
+  roomId       Int
+  room         Room             @relation(fields: [roomId], references: [id])
+  condition    String
+  spec         String
+  image        String
+  typeId       Int
+  itemType     Items_type       @relation(fields: [typeId], references: [id])
+  movements    ItemMovement[]
+  created_at   DateTime         @default(now())
+  updated_at   DateTime         @updatedAt
+}
+
+// Model baru untuk junction table
+model ItemMovement {
+  id         Int       @id @default(autoincrement())
+  itemId     String
+  item       Items     @relation(fields: [itemId], references: [id])
+  movementId Int
+  movement   Movement  @relation(fields: [movementId], references: [id])
+  isActive   Boolean   @default(true)
+  startDate  DateTime  @default(now())
+  endDate    DateTime?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+
+  @@unique([itemId, movementId])
+}
+
+model Movement {
+  id            Int            @id @default(autoincrement())
+  MovementTitle String?
+  items         ItemMovement[]
+  movementType  MovementType
+  status        MovementStatus @default(PENGAJUAN)
+  quantity      Int
+  fromRoomId    Int?
+  fromRoom      Room?          @relation("FromRoom", fields: [fromRoomId], references: [id])
+  toRoomId      Int?
+  toRoom        Room?          @relation("ToRoom", fields: [toRoomId], references: [id])
+  requesterName String
+  approvedById  Int?
+  approvedBy    Users?         @relation("Approver", fields: [approvedById], references: [id])
+  assignedToId  Int?
+  assignedTo    Users?         @relation("Assignee", fields: [assignedToId], references: [id])
+  description   String?
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
 }
 
 model Room {
-  id         Int          @id @default(autoincrement())
-  name       String
-  building   String
-  number     String
-  address    String
-  created_at DateTime     @default(now())
-  update_at  DateTime     @updatedAt
-  items      Items[]
-  Items_type Items_type[]
+  id            Int        @id @default(autoincrement())
+  name          String
+  building      String
+  number        String
+  address       String
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  items         Items[]
+  movementsFrom Movement[] @relation("FromRoom")
+  movementsTo   Movement[] @relation("ToRoom")
 }
 
 model Supplier {
@@ -93,32 +140,21 @@ model Supplier {
   Items_type Items_type[]
 }
 
-model Movement_Request {
-  id             Int        @id @default(autoincrement())
-  title          String
-  requesterName  String
-  itemId         Int        @unique
-  itemMove       Items_type @relation(fields: [itemId], references: [id])
-  status         String
-  approvedBy     Users?     @relation("ApprovedBy", fields: [userId], references: [id])
-  userId         Int?
-  assignTo       Users?     @relation("AssignTo", fields: [userAssignToId], references: [id])
-  userAssignToId Int?
-  created_at     DateTime   @default(now())
-  updated_at     DateTime   @updatedAt
-}
-
-model Movement_Request_History_Log {
-  id            Int      @id @default(autoincrement())
-  title         String?
-  requesterName String?
-  approvedBy    String?
-  assignTo      String?
-  inputBy       String
-  inputName     String
-  quantity      Int
-  roomName      String
-  status        String
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+model Movement_log {
+  id               Int              @id @default(autoincrement())
+  MovementTitle    String?
+  movementType     String
+  itemTypeName     String
+  quantity         Int
+  fromRoom         String?
+  toRoom           String?
+  requesterName    String?
+  approvedBy       String?
+  assignedTo       String?
+  inputBy          String?
+  status           MovementStatus
+  itemAvailability ItemAvailability
+  description      String?
+  created_at       DateTime         @default(now())
+  updated_at       DateTime         @updatedAt
 }

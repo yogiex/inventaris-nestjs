@@ -1,23 +1,32 @@
-/* eslint-disable prettier/prettier */
 import { ApiProperty, OmitType, PartialType, PickType } from '@nestjs/swagger';
-export enum ItemType {
-  REDUCE = 'barang_stok',
-  NON_REDUCE = 'barang_sekali_pakai',
-}
+import { ItemAvailability } from '@prisma/client';
+
 export class Items {
   @ApiProperty()
   id?: string;
 
+  @ApiProperty({ enum: ItemAvailability })
+  availability: ItemAvailability;
+
   @ApiProperty()
-  image: string;
+  roomId: number;
 
   @ApiProperty()
   condition: string;
 
   @ApiProperty()
   spec: string;
+
+  @ApiProperty()
+  image: string;
+
+  @ApiProperty()
+  typeId: number;
+
+  @ApiProperty({ required: false })
+  currentMovementId?: number;
 }
 
-export class CreateItem extends OmitType(Items, ['id']) {}
+export class CreateItem extends OmitType(Items, ['id', 'currentMovementId']) {}
 export class UpdateItem extends PartialType(Items) {}
 export class ItemIdDTO extends PickType(Items, ['id']) {}

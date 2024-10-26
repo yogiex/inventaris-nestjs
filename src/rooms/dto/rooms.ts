@@ -1,4 +1,4 @@
-import { ApiProperty, OmitType, PickType } from '@nestjs/swagger';
+import { ApiProperty, OmitType, PartialType, PickType } from '@nestjs/swagger';
 
 export class RoomsDTO {
   id?: number;
@@ -13,4 +13,5 @@ export class RoomsDTO {
 }
 
 export class CreateRoom extends OmitType(RoomsDTO, ['id']) {}
+export class UpdateRoom extends PartialType(CreateRoom) {}
 export class RoomIdDto extends PickType(RoomsDTO, ['id']) {}

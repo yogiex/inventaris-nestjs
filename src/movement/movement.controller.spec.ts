@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MovementRequestController } from './movement_request.controller';
+import { MovementController } from './movement.controller';
 
 describe('MovementRequestController', () => {
-  let controller: MovementRequestController;
+  let controller: MovementController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [MovementRequestController],
+      controllers: [MovementController],
     }).compile();
 
-    controller = module.get<MovementRequestController>(MovementRequestController);
+    controller = module.get<MovementController>(MovementController);
   });
 
   it('should be defined', () => {
